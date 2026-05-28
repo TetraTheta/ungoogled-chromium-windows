@@ -191,7 +191,7 @@ jobs:
     needs:
       - resolve-release-context
       - publish-release
-    if: ${{ needs.resolve-release-context.outputs.ready == 'true' && needs.resolve-release-context.outputs.publishable == 'true' }}
+    if: ${{ false }} # ${{ needs.resolve-release-context.outputs.ready == 'true' && needs.resolve-release-context.outputs.publishable == 'true' }}
     runs-on: ubuntu-slim
     steps:
       - name: Get version
@@ -210,7 +210,7 @@ jobs:
     needs:
       - resolve-release-context
       - publish-release
-    if: ${{ needs.resolve-release-context.outputs.ready == 'true' && needs.resolve-release-context.outputs.publishable == 'true' }}
+    if: ${{ false }} # ${{ needs.resolve-release-context.outputs.ready == 'true' && needs.resolve-release-context.outputs.publishable == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ungoogled-chromium-windows
