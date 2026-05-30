@@ -1,9 +1,14 @@
 name: build-arm
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
+  # push:
+  #   tags:
+  #     - '*'
   push:
-    tags:
-      - '*'
+    branches-ignore:
+      - '**'
+    tags-ignore:
+      - '**'
 
 permissions:
   contents: read

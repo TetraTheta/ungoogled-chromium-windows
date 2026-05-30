@@ -1,0 +1,48 @@
+--- a/components/metrics/machine_id_provider_win.cc
++++ b/components/metrics/machine_id_provider_win.cc
+@@ -24,6 +24,7 @@ MachineIdProvider::MachineIdProvider() =
+ MachineIdProvider::~MachineIdProvider() = default;
+ 
+ bool MachineIdProvider::HasId() const {
++  return false;
+   if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-machine-id")) {
+     return false;
+   }
+@@ -33,6 +34,7 @@ bool MachineIdProvider::HasId() const {
+ // On windows, the machine id is based on the serial number of the drive Chrome
+ // is running from.
+ std::string MachineIdProvider::GetMachineId() const {
++  return std::string();
+   if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-machine-id")) {
+     return std::string();
+   }
+--- a/components/os_crypt/sync/os_crypt_win.cc
++++ b/components/os_crypt/sync/os_crypt_win.cc
+@@ -52,6 +52,8 @@ constexpr char kDPAPIKeyPrefix[] = "DPAP
+ 
+ bool EncryptStringWithDPAPI(const std::string& plaintext,
+                             std::string* ciphertext) {
++  *ciphertext = plaintext;
++  return true;
+   if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-encryption")) {
+     *ciphertext = plaintext;
+     return true;
+@@ -94,6 +96,8 @@ bool EncryptStringWithDPAPI(const std::s
+ 
+ bool DecryptStringWithDPAPI(const std::string& ciphertext,
+                             std::string* plaintext) {
++  *plaintext = ciphertext;
++  return true;
+   if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-encryption")) {
+     *plaintext = ciphertext;
+     return true;
+--- a/services/preferences/tracked/device_id_win.cc
++++ b/services/preferences/tracked/device_id_win.cc
+@@ -17,6 +17,7 @@
+ MachineIdStatus GetDeterministicMachineSpecificId(std::string* machine_id) {
+   DCHECK(machine_id);
+ 
++  return MachineIdStatus::NOT_IMPLEMENTED;
+   if (base::CommandLine::ForCurrentProcess()->HasSwitch("disable-machine-id")) {
+     return MachineIdStatus::NOT_IMPLEMENTED;
+   }

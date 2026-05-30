@@ -5,7 +5,7 @@ on:
     workflows:
       - build-x64
       - build-x86
-      - build-arm
+      # - build-arm
     types:
       - completed
 
@@ -28,7 +28,7 @@ jobs:
       target_sha: ${{ steps.context.outputs.target_sha }}
       x64_run_id: ${{ steps.runs.outputs.x64_run_id }}
       x86_run_id: ${{ steps.runs.outputs.x86_run_id }}
-      arm_run_id: ${{ steps.runs.outputs.arm_run_id }}
+      # arm_run_id: ${{ steps.runs.outputs.arm_run_id }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -102,7 +102,7 @@ jobs:
             const workflows = [
               { key: 'x64', file: 'build-x64.yml' },
               { key: 'x86', file: 'build-x86.yml' },
-              { key: 'arm', file: 'build-arm.yml' },
+              // { key: 'arm', file: 'build-arm.yml' },
             ];
             const targetSha = process.env.TARGET_SHA;
             const outputs = { publishable: 'true' };
@@ -169,14 +169,14 @@ jobs:
           repository: ${{ github.repository }}
           run-id: ${{ needs.resolve-release-context.outputs.x86_run_id }}
 
-      - name: Download arm package
-        uses: actions/download-artifact@v7
-        with:
-          name: chromium-arm
-          path: artifacts/arm
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ needs.resolve-release-context.outputs.arm_run_id }}
+      # - name: Download arm package
+      #   uses: actions/download-artifact@v7
+      #   with:
+      #     name: chromium-arm
+      #     path: artifacts/arm
+      #     github-token: ${{ github.token }}
+      #     repository: ${{ github.repository }}
+      #     run-id: ${{ needs.resolve-release-context.outputs.arm_run_id }}
 
       - name: Publish release
         uses: softprops/action-gh-release@v2
@@ -191,7 +191,7 @@ jobs:
     needs:
       - resolve-release-context
       - publish-release
-    if: ${{ needs.resolve-release-context.outputs.ready == 'true' && needs.resolve-release-context.outputs.publishable == 'true' }}
+    if: ${{ false }} # ${{ needs.resolve-release-context.outputs.ready == 'true' && needs.resolve-release-context.outputs.publishable == 'true' }}
     runs-on: ubuntu-slim
     steps:
       - name: Get version
@@ -210,7 +210,7 @@ jobs:
     needs:
       - resolve-release-context
       - publish-release
-    if: ${{ needs.resolve-release-context.outputs.ready == 'true' && needs.resolve-release-context.outputs.publishable == 'true' }}
+    if: ${{ false }} # ${{ needs.resolve-release-context.outputs.ready == 'true' && needs.resolve-release-context.outputs.publishable == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ungoogled-chromium-windows
